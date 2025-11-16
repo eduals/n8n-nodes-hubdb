@@ -9,7 +9,7 @@ export async function rowOperations(
 	this: IExecuteFunctions,
 	index: number,
 ): Promise<INodeExecutionData[]> {
-	const credentials = await this.getCredentials('hubspotApi');
+	const credentials = await this.getCredentials('hubDbApi');
 	const baseUrl = 'https://api.hubapi.com/cms/v3/hubdb';
 	const operation = this.getNodeParameter('operation', index) as string;
 	const tableId = this.getNodeParameter('tableId', index) as string;

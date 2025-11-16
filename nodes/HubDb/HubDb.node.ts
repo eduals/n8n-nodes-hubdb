@@ -42,7 +42,7 @@ export class HubDb implements INodeType {
 		outputs: ['main'],
 		credentials: [
 			{
-				name: 'hubspotApi',
+				name: 'hubDbApi',
 				required: true,
 			},
 		],

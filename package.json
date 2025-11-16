@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-hubdb",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "n8n node for HubSpot HubDB API v3 operations",
   "keywords": [
     "n8n-community-node-package",

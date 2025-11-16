@@ -27,7 +27,7 @@ export async function rowOperations(
 	const tableId = this.getNodeParameter('tableId', index) as string;
 
 	// HubSpot API token (pode ser accessToken ou apiKey dependendo da configuração)
-	const token = (credentials.accessToken as string) || (credentials.apiKey as string);
+	const token = ((credentials.accessToken as string) || (credentials.apiKey as string))?.trim();
 	if (!token) {
 		throw new NodeApiError(this.getNode(), {
 			message: 'Missing authentication credentials. Please configure API Key or Access Token in node credentials.',
@@ -176,14 +176,12 @@ export async function rowOperations(
 
 			const body: IDataObject = { values };
 
-			// Use json: true to let n8n handle JSON serialization and headers
 			let responseData = await this.helpers.request({
 				method: 'PATCH',
 				url: `${baseUrl}/tables/${tableId}/rows/${rowId}`,
 				headers,
 				qs,
-				json: true,
-				body,
+				body: JSON.stringify(body),
 			});
 
 			// Parse JSON string if needed

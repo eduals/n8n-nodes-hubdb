@@ -176,12 +176,14 @@ export async function rowOperations(
 
 			const body: IDataObject = { values };
 
+			// Use json: true to let n8n handle JSON serialization and headers
 			let responseData = await this.helpers.request({
 				method: 'PATCH',
 				url: `${baseUrl}/tables/${tableId}/rows/${rowId}`,
 				headers,
 				qs,
-				body: JSON.stringify(body),
+				json: true,
+				body,
 			});
 
 			// Parse JSON string if needed

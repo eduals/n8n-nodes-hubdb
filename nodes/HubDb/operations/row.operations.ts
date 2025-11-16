@@ -179,7 +179,7 @@ export async function rowOperations(
 				qs,
 			});
 
-			returnData.push({ success: true, tableId, rowId });
+			returnData.push({ deleted: true });
 
 		} else if (operation === 'batchCreate') {
 			const rowsJson = this.getNodeParameter('rows', index) as string;
@@ -355,7 +355,14 @@ export async function rowOperations(
 			const errorMessage = error instanceof Error ? error.message : String(error);
 			return [{ json: { error: errorMessage } }];
 		}
-		throw error;
+		
+		// Improve error handling according to n8n guidelines
+		if (error instanceof NodeApiError) {
+			throw error;
+		}
+		
+		const errorMessage = error instanceof Error ? error.message : String(error);
+		throw new NodeApiError(this.getNode(), { message: errorMessage });
 	}
 }
 

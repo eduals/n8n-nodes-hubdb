@@ -105,7 +105,14 @@ export async function draftTableOperations(
 			const errorMessage = error instanceof Error ? error.message : String(error);
 			return [{ json: { error: errorMessage } }];
 		}
-		throw error;
+		
+		// Improve error handling according to n8n guidelines
+		if (error instanceof NodeApiError) {
+			throw error;
+		}
+		
+		const errorMessage = error instanceof Error ? error.message : String(error);
+		throw new NodeApiError(this.getNode(), { message: errorMessage });
 	}
 }
 
@@ -358,7 +365,14 @@ export async function draftRowOperations(
 			const errorMessage = error instanceof Error ? error.message : String(error);
 			return [{ json: { error: errorMessage } }];
 		}
-		throw error;
+		
+		// Improve error handling according to n8n guidelines
+		if (error instanceof NodeApiError) {
+			throw error;
+		}
+		
+		const errorMessage = error instanceof Error ? error.message : String(error);
+		throw new NodeApiError(this.getNode(), { message: errorMessage });
 	}
 }
 

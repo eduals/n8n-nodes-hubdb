@@ -16,12 +16,12 @@ export class HubDbApi implements ICredentialType {
 			type: 'options',
 			options: [
 				{
-					name: 'API Key',
+					name: 'API Key (Private App)',
 					value: 'apiKey',
 				},
 				{
-					name: 'OAuth2',
-					value: 'oAuth2',
+					name: 'Access Token + Client Secret (Legacy App)',
+					value: 'legacyApp',
 				},
 			],
 			default: 'apiKey',
@@ -39,7 +39,8 @@ export class HubDbApi implements ICredentialType {
 				},
 			},
 			default: '',
-			description: 'Your HubSpot Private App API Key or API Key',
+			description: 'Your HubSpot Private App API Key',
+			required: true,
 		},
 		{
 			displayName: 'Access Token',
@@ -50,11 +51,28 @@ export class HubDbApi implements ICredentialType {
 			},
 			displayOptions: {
 				show: {
-					authentication: ['oAuth2'],
+					authentication: ['legacyApp'],
 				},
 			},
 			default: '',
-			description: 'OAuth2 Access Token',
+			description: 'Your HubSpot Access Token (from legacy app)',
+			required: true,
+		},
+		{
+			displayName: 'Client Secret',
+			name: 'clientSecret',
+			type: 'string',
+			typeOptions: {
+				password: true,
+			},
+			displayOptions: {
+				show: {
+					authentication: ['legacyApp'],
+				},
+			},
+			default: '',
+			description: 'Your HubSpot Client Secret (from legacy app)',
+			required: true,
 		},
 	];
 
@@ -75,4 +93,3 @@ export class HubDbApi implements ICredentialType {
 		},
 	};
 }
-

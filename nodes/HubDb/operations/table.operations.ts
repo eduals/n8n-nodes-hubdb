@@ -203,7 +203,7 @@ export async function tableOperations(
 				qs,
 			});
 
-			returnData.push({ success: true, tableId });
+			returnData.push({ deleted: true });
 
 		} else if (operation === 'clone') {
 			const tableId = this.getNodeParameter('tableId', index) as string;
@@ -288,7 +288,14 @@ export async function tableOperations(
 			const errorMessage = error instanceof Error ? error.message : String(error);
 			return [{ json: { error: errorMessage } }];
 		}
-		throw error;
+		
+		// Improve error handling according to n8n guidelines
+		if (error instanceof NodeApiError) {
+			throw error;
+		}
+		
+		const errorMessage = error instanceof Error ? error.message : String(error);
+		throw new NodeApiError(this.getNode(), { message: errorMessage });
 	}
 }
 

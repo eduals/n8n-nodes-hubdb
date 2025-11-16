@@ -1,0 +1,21 @@
+{
+	"node": {
+		"version": 1,
+		"name": "hubDb",
+		"displayName": "HubSpot HubDB",
+		"description": "Interact with HubSpot HubDB API v3",
+		"defaults": {
+			"name": "HubSpot HubDB"
+		},
+		"inputs": ["main"],
+		"outputs": ["main"],
+		"properties": [],
+		"credentials": [
+			{
+				"name": "hubDbApi",
+				"required": true
+			}
+		]
+	}
+}
+

@@ -9,14 +9,14 @@
     "database"
   ],
   "license": "MIT",
-  "homepage": "",
+  "homepage": "https://github.com/eduals/n8n-nodes-hubdb#readme",
   "author": {
     "name": "Eduardo Almeida",
     "email": "eduardo.junnior@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/eduals/n8n-nodes-hubdb.git"
+    "url": "git+https://github.com/eduals/n8n-nodes-hubdb.git"
   },
   "main": "index.js",
   "scripts": {

@@ -5,6 +5,18 @@ import {
 	NodeApiError,
 } from 'n8n-workflow';
 
+// Helper function to parse JSON strings to objects
+function parseJsonResponse(data: any): any {
+	if (typeof data === 'string') {
+		try {
+			return JSON.parse(data);
+		} catch {
+			return data;
+		}
+	}
+	return data;
+}
+
 export async function tableOperations(
 	this: IExecuteFunctions,
 	index: number,
@@ -48,6 +60,9 @@ export async function tableOperations(
 					qs,
 				});
 
+				// Parse JSON string if needed
+				responseData = parseJsonResponse(responseData);
+
 				if (responseData.results) {
 					returnData.push(...responseData.results);
 				} else {
@@ -78,13 +93,15 @@ export async function tableOperations(
 				qs.useColumnNames = 'true';
 			}
 
-			const responseData = await this.helpers.request({
+			let responseData = await this.helpers.request({
 				method: 'GET',
 				url: `${baseUrl}/tables/${tableId}`,
 				headers,
 				qs,
 			});
 
+			// Parse JSON string if needed
+			responseData = parseJsonResponse(responseData);
 			returnData.push(responseData);
 
 		} else if (operation === 'create') {
@@ -124,7 +141,7 @@ export async function tableOperations(
 				qs.portalId = portalId;
 			}
 
-			const responseData = await this.helpers.request({
+			let responseData = await this.helpers.request({
 				method: 'POST',
 				url: `${baseUrl}/tables`,
 				headers,
@@ -132,6 +149,8 @@ export async function tableOperations(
 				body: JSON.stringify(body),
 			});
 
+			// Parse JSON string if needed
+			responseData = parseJsonResponse(responseData);
 			returnData.push(responseData);
 
 		} else if (operation === 'update') {
@@ -178,7 +197,7 @@ export async function tableOperations(
 				qs.portalId = portalId;
 			}
 
-			const responseData = await this.helpers.request({
+			let responseData = await this.helpers.request({
 				method: 'PATCH',
 				url: `${baseUrl}/tables/${tableId}`,
 				headers,
@@ -186,6 +205,8 @@ export async function tableOperations(
 				body: JSON.stringify(body),
 			});
 
+			// Parse JSON string if needed
+			responseData = parseJsonResponse(responseData);
 			returnData.push(responseData);
 
 		} else if (operation === 'delete') {
@@ -219,7 +240,7 @@ export async function tableOperations(
 				qs.portalId = portalId;
 			}
 
-			const responseData = await this.helpers.request({
+			let responseData = await this.helpers.request({
 				method: 'POST',
 				url: `${baseUrl}/tables/${tableId}/clone`,
 				headers,
@@ -227,6 +248,8 @@ export async function tableOperations(
 				body: JSON.stringify(body),
 			});
 
+			// Parse JSON string if needed
+			responseData = parseJsonResponse(responseData);
 			returnData.push(responseData);
 
 		} else if (operation === 'publish') {
@@ -237,13 +260,15 @@ export async function tableOperations(
 				qs.portalId = portalId;
 			}
 
-			const responseData = await this.helpers.request({
+			let responseData = await this.helpers.request({
 				method: 'POST',
 				url: `${baseUrl}/tables/${tableId}/publish`,
 				headers,
 				qs,
 			});
 
+			// Parse JSON string if needed
+			responseData = parseJsonResponse(responseData);
 			returnData.push(responseData);
 
 		} else if (operation === 'unpublish') {
@@ -254,13 +279,15 @@ export async function tableOperations(
 				qs.portalId = portalId;
 			}
 
-			const responseData = await this.helpers.request({
+			let responseData = await this.helpers.request({
 				method: 'POST',
 				url: `${baseUrl}/tables/${tableId}/unpublish`,
 				headers,
 				qs,
 			});
 
+			// Parse JSON string if needed
+			responseData = parseJsonResponse(responseData);
 			returnData.push(responseData);
 
 		} else if (operation === 'resetDraft') {
@@ -271,13 +298,15 @@ export async function tableOperations(
 				qs.portalId = portalId;
 			}
 
-			const responseData = await this.helpers.request({
+			let responseData = await this.helpers.request({
 				method: 'POST',
 				url: `${baseUrl}/tables/${tableId}/reset-draft`,
 				headers,
 				qs,
 			});
 
+			// Parse JSON string if needed
+			responseData = parseJsonResponse(responseData);
 			returnData.push(responseData);
 		}
 

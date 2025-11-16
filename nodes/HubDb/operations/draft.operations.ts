@@ -5,6 +5,18 @@ import {
 	NodeApiError,
 } from 'n8n-workflow';
 
+// Helper function to parse JSON strings to objects
+function parseJsonResponse(data: any): any {
+	if (typeof data === 'string') {
+		try {
+			return JSON.parse(data);
+		} catch {
+			return data;
+		}
+	}
+	return data;
+}
+
 export async function draftTableOperations(
 	this: IExecuteFunctions,
 	index: number,
@@ -41,13 +53,15 @@ export async function draftTableOperations(
 				qs.useColumnNames = 'true';
 			}
 
-			const responseData = await this.helpers.request({
+			let responseData = await this.helpers.request({
 				method: 'GET',
 				url: `${baseUrl}/tables/${tableId}/draft`,
 				headers,
 				qs,
 			});
 
+			// Parse JSON string if needed
+			responseData = parseJsonResponse(responseData);
 			returnData.push(responseData);
 
 		} else if (operation === 'update') {
@@ -87,7 +101,7 @@ export async function draftTableOperations(
 				qs.portalId = portalId;
 			}
 
-			const responseData = await this.helpers.request({
+			let responseData = await this.helpers.request({
 				method: 'PATCH',
 				url: `${baseUrl}/tables/${tableId}/draft`,
 				headers,
@@ -95,6 +109,8 @@ export async function draftTableOperations(
 				body: JSON.stringify(body),
 			});
 
+			// Parse JSON string if needed
+			responseData = parseJsonResponse(responseData);
 			returnData.push(responseData);
 		}
 
@@ -153,13 +169,15 @@ export async function draftRowOperations(
 				qs.useColumnNames = 'true';
 			}
 
-			const responseData = await this.helpers.request({
+			let responseData = await this.helpers.request({
 				method: 'GET',
 				url: `${baseUrl}/tables/${tableId}/rows/${rowId}/draft`,
 				headers,
 				qs,
 			});
 
+			// Parse JSON string if needed
+			responseData = parseJsonResponse(responseData);
 			returnData.push(responseData);
 
 		} else if (operation === 'update') {
@@ -181,7 +199,7 @@ export async function draftRowOperations(
 				qs.portalId = portalId;
 			}
 
-			const responseData = await this.helpers.request({
+			let responseData = await this.helpers.request({
 				method: 'PATCH',
 				url: `${baseUrl}/tables/${tableId}/rows/${rowId}/draft`,
 				headers,
@@ -189,6 +207,8 @@ export async function draftRowOperations(
 				body: JSON.stringify(body),
 			});
 
+			// Parse JSON string if needed
+			responseData = parseJsonResponse(responseData);
 			returnData.push(responseData);
 
 		} else if (operation === 'batchCreate') {
@@ -213,7 +233,7 @@ export async function draftRowOperations(
 
 			const body: IDataObject = { inputs: rows };
 
-			const responseData = await this.helpers.request({
+			let responseData = await this.helpers.request({
 				method: 'POST',
 				url: `${baseUrl}/tables/${tableId}/rows/draft/batch/create`,
 				headers,
@@ -221,6 +241,8 @@ export async function draftRowOperations(
 				body: JSON.stringify(body),
 			});
 
+			// Parse JSON string if needed
+			responseData = parseJsonResponse(responseData);
 			returnData.push(responseData);
 
 		} else if (operation === 'batchRead') {
@@ -239,7 +261,7 @@ export async function draftRowOperations(
 
 			const body: IDataObject = { inputs: rowIds };
 
-			const responseData = await this.helpers.request({
+			let responseData = await this.helpers.request({
 				method: 'POST',
 				url: `${baseUrl}/tables/${tableId}/rows/draft/batch/read`,
 				headers,
@@ -247,6 +269,8 @@ export async function draftRowOperations(
 				body: JSON.stringify(body),
 			});
 
+			// Parse JSON string if needed
+			responseData = parseJsonResponse(responseData);
 			returnData.push(responseData);
 
 		} else if (operation === 'batchUpdate') {
@@ -271,7 +295,7 @@ export async function draftRowOperations(
 
 			const body: IDataObject = { inputs: rows };
 
-			const responseData = await this.helpers.request({
+			let responseData = await this.helpers.request({
 				method: 'POST',
 				url: `${baseUrl}/tables/${tableId}/rows/draft/batch/update`,
 				headers,
@@ -279,6 +303,8 @@ export async function draftRowOperations(
 				body: JSON.stringify(body),
 			});
 
+			// Parse JSON string if needed
+			responseData = parseJsonResponse(responseData);
 			returnData.push(responseData);
 
 		} else if (operation === 'batchDelete') {
@@ -293,7 +319,7 @@ export async function draftRowOperations(
 
 			const body: IDataObject = { inputs: rowIds };
 
-			const responseData = await this.helpers.request({
+			let responseData = await this.helpers.request({
 				method: 'POST',
 				url: `${baseUrl}/tables/${tableId}/rows/draft/batch/purge`,
 				headers,
@@ -301,6 +327,8 @@ export async function draftRowOperations(
 				body: JSON.stringify(body),
 			});
 
+			// Parse JSON string if needed
+			responseData = parseJsonResponse(responseData);
 			returnData.push(responseData);
 
 		} else if (operation === 'batchClone') {
@@ -315,7 +343,7 @@ export async function draftRowOperations(
 
 			const body: IDataObject = { inputs: rowIds };
 
-			const responseData = await this.helpers.request({
+			let responseData = await this.helpers.request({
 				method: 'POST',
 				url: `${baseUrl}/tables/${tableId}/rows/draft/batch/clone`,
 				headers,
@@ -323,6 +351,8 @@ export async function draftRowOperations(
 				body: JSON.stringify(body),
 			});
 
+			// Parse JSON string if needed
+			responseData = parseJsonResponse(responseData);
 			returnData.push(responseData);
 
 		} else if (operation === 'batchReplace') {
@@ -347,7 +377,7 @@ export async function draftRowOperations(
 
 			const body: IDataObject = { inputs: rows };
 
-			const responseData = await this.helpers.request({
+			let responseData = await this.helpers.request({
 				method: 'POST',
 				url: `${baseUrl}/tables/${tableId}/rows/draft/batch/replace`,
 				headers,
@@ -355,6 +385,8 @@ export async function draftRowOperations(
 				body: JSON.stringify(body),
 			});
 
+			// Parse JSON string if needed
+			responseData = parseJsonResponse(responseData);
 			returnData.push(responseData);
 		}
 

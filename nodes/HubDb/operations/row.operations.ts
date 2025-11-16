@@ -26,15 +26,18 @@ export async function rowOperations(
 	const operation = this.getNodeParameter('operation', index) as string;
 	const tableId = this.getNodeParameter('tableId', index) as string;
 
-	const headers: IDataObject = {
-		'Content-Type': 'application/json',
-	};
-
 	// HubSpot API token (pode ser accessToken ou apiKey dependendo da configuração)
 	const token = (credentials.accessToken as string) || (credentials.apiKey as string);
-	if (token) {
-		headers['Authorization'] = `Bearer ${token}`;
+	if (!token) {
+		throw new NodeApiError(this.getNode(), {
+			message: 'Missing authentication credentials. Please configure API Key or Access Token in node credentials.',
+		});
 	}
+
+	const headers: IDataObject = {
+		'Content-Type': 'application/json',
+		Authorization: `Bearer ${token}`,
+	};
 
 	// Portal ID (pode vir das credenciais ou ser necessário adicionar)
 	const portalId = (credentials.portalId as string) || (credentials.hubId as string);
